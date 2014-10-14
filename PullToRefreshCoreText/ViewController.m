@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "UIScrollView+PullToRefreshCoreText.h"
 
 @interface ViewController ()
 
@@ -16,7 +17,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 1000)];
+    [self.view addSubview:scrollView];
+    
+    [scrollView addPullToRefreshWithPullText:@"Loading" action:^{
+        NSLog(@"loading...");
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
