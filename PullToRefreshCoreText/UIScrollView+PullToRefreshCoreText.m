@@ -63,7 +63,7 @@
                   refreshingTextFont:(UIFont *)refreshingTextFont
                               action:(pullToRefreshAction)action {
     
-    float ptrH = pullTextFont.pointSize + 10;
+    float ptrH = [self labelHeightForString:pullText labelWidth:self.frame.size.width andFont:pullTextFont];
     CGRect ptrRect = CGRectMake(0, -ptrH, self.frame.size.width, ptrH);
     
     self.pullToRefreshView = [[PullToRefreshCoreTextView alloc] initWithFrame:ptrRect pullText:pullText pullTextColor:pullTextColor pullTextFont:pullTextFont refreshingText:refreshingText refreshingTextColor:refreshingTextColor refreshingTextFont:refreshingTextFont action:action];
@@ -76,12 +76,17 @@
 
 #pragma mark - Loading
 
-- (void)startLoading {
-    
+- (void)finishLoading {
+    [self.pullToRefreshView endLoading];
 }
 
-- (void)endLoading {
 
+#pragma mark - Utils
+
+- (CGFloat)labelHeightForString:(NSString*)string labelWidth:(float)width andFont:(UIFont*)font {
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName: font}];
+    CGRect rect = [attributedText boundingRectWithSize:(CGSize){width, CGFLOAT_MAX} options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    return rect.size.height;
 }
 
 

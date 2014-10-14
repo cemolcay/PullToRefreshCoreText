@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
+
+#import "FBShimmeringLayer.h"
 #import "FBShimmeringView.h"
 
 typedef void(^pullToRefreshAction)(void);
@@ -14,11 +17,10 @@ typedef void(^pullToRefreshAction)(void);
 typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
     PullToRefreshCoreTextStatusNatural,
     PullToRefreshCoreTextStatusDragging,
-    PullToRefreshCoreTextStatusLoading,
-    PullToRefreshCoreTextStatusLoaded
+    PullToRefreshCoreTextStatusLoading
 };
 
-@interface PullToRefreshCoreTextView : UILabel
+@interface PullToRefreshCoreTextView : UIView
 
 @property (assign) PullToRefreshCoreTextStatus status;
 @property (copy) pullToRefreshAction action;
@@ -32,10 +34,10 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 @property (nonatomic, strong) UIFont *refreshingTextFont;
 
 @property (nonatomic, strong) CAShapeLayer *textLayer;
-@property (nonatomic, strong) CAAnimation *pullAnimation;
+@property (nonatomic, strong) CABasicAnimation *pullAnimation;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) FBShimmeringView *shimmeringView;
+@property (nonatomic, strong) FBShimmeringLayer *shimmeringLayer;
 
 - (instancetype)initWithFrame:(CGRect)frame
                      pullText:(NSString *)pullText
@@ -45,5 +47,7 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
           refreshingTextColor:(UIColor *)refreshingTextColor
            refreshingTextFont:(UIFont *)refreshingTextFont
                        action:(pullToRefreshAction)action;
+
+- (void)endLoading;
 
 @end
