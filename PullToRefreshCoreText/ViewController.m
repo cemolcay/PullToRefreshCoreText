@@ -30,7 +30,7 @@
 
 - (void)loadNewItems {
     __weak typeof(UIScrollView) *sc = self.scrollView;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [sc finishLoading];
     });

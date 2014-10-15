@@ -15,15 +15,16 @@
 typedef void(^pullToRefreshAction)(void);
 
 typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
-    PullToRefreshCoreTextStatusNatural,
+    PullToRefreshCoreTextStatusHidden,
     PullToRefreshCoreTextStatusDragging,
-    PullToRefreshCoreTextStatusLoading
+    PullToRefreshCoreTextStatusTriggered,
 };
 
 @interface PullToRefreshCoreTextView : UIView
 
-@property (assign) PullToRefreshCoreTextStatus status;
 @property (copy) pullToRefreshAction action;
+@property (assign) PullToRefreshCoreTextStatus status;
+@property (assign, getter=isLoading) BOOL loading;
 
 @property (nonatomic, strong) NSString *pullText;
 @property (nonatomic, strong) UIColor *pullTextColor;
@@ -37,7 +38,7 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 @property (nonatomic, strong) CABasicAnimation *pullAnimation;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) FBShimmeringLayer *shimmeringLayer;
+@property (nonatomic, strong) CALayer *maskLayer;
 
 - (instancetype)initWithFrame:(CGRect)frame
                      pullText:(NSString *)pullText

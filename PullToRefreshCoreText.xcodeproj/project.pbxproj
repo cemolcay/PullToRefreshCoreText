@@ -10,6 +10,7 @@
 		B20C940819ECFF1400385DB5 /* PullToRefreshCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B20C940719ECFF1400385DB5 /* PullToRefreshCoreTextView.m */; };
 		B20C941019ECFF2E00385DB5 /* FBShimmeringLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B20C940D19ECFF2E00385DB5 /* FBShimmeringLayer.m */; };
 		B20C941119ECFF2E00385DB5 /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = B20C940F19ECFF2E00385DB5 /* FBShimmeringView.m */; };
+		B24C62F319EED1AD007DAC38 /* Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = B24C62F219EED1AD007DAC38 /* Mask.png */; };
 		B29BC27919E4178E00365B69 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B29BC27819E4178E00365B69 /* main.m */; };
 		B29BC27C19E4178E00365B69 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B29BC27B19E4178E00365B69 /* AppDelegate.m */; };
 		B29BC27F19E4178E00365B69 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B29BC27E19E4178E00365B69 /* ViewController.m */; };
@@ -38,6 +39,7 @@
 		B20C940D19ECFF2E00385DB5 /* FBShimmeringLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringLayer.m; sourceTree = "<group>"; };
 		B20C940E19ECFF2E00385DB5 /* FBShimmeringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringView.h; sourceTree = "<group>"; };
 		B20C940F19ECFF2E00385DB5 /* FBShimmeringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringView.m; sourceTree = "<group>"; };
+		B24C62F219EED1AD007DAC38 /* Mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mask.png; sourceTree = "<group>"; };
 		B29BC27319E4178E00365B69 /* PullToRefreshCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PullToRefreshCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B29BC27719E4178E00365B69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B29BC27819E4178E00365B69 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		B20C941219ECFF3400385DB5 /* PullToRefreshCoreText */ = {
 			isa = PBXGroup;
 			children = (
+				B24C62F219EED1AD007DAC38 /* Mask.png */,
 				B29BC29C19E417E600365B69 /* UIScrollView+PullToRefreshCoreText.h */,
 				B29BC29D19E417E600365B69 /* UIScrollView+PullToRefreshCoreText.m */,
 				B20C940619ECFF1400385DB5 /* PullToRefreshCoreTextView.h */,
@@ -240,6 +243,7 @@
 				B29BC28219E4178E00365B69 /* Main.storyboard in Resources */,
 				B29BC28719E4178E00365B69 /* LaunchScreen.xib in Resources */,
 				B29BC28419E4178E00365B69 /* Images.xcassets in Resources */,
+				B24C62F319EED1AD007DAC38 /* Mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

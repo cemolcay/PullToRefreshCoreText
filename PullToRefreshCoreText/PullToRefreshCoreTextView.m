@@ -67,7 +67,7 @@
                        action:(pullToRefreshAction)action {
     if ((self = [super initWithFrame:frame])) {
 
-        [self setBackgroundColor:[UIColor grayColor]];
+        //[self setBackgroundColor:[UIColor grayColor]];
         
         self.pullText = pullText;
         self.pullTextColor = pullTextColor;
@@ -78,71 +78,114 @@
         self.refreshingTextFont = refreshingTextFont;
         
         self.action = action;
-        self.status = PullToRefreshCoreTextStatusNatural;
-
-        
+        self.status = PullToRefreshCoreTextStatusHidden;
+        self.loading = NO;
+                
         self.textLayer = [CAShapeLayer layer];
         [self.textLayer setPath:[[pullText bezierPathWithFont:pullTextFont] CGPath]];
         [self.textLayer setFillColor:[[UIColor clearColor] CGColor]];
         [self.textLayer setStrokeColor:[pullTextColor CGColor]];
-        [self.textLayer setLineWidth:1];
+        [self.textLayer setLineWidth:2];
         [self.textLayer setSpeed:0];
         [self.layer addSublayer:self.textLayer];
+        
+        float textSize = [pullText sizeWithAttributes:@{NSFontAttributeName:pullTextFont}].width;
+        [self.textLayer setPosition:CGPointMake((self.frame.size.width-textSize)/2, self.textLayer.position.y)];
 
         self.pullAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         [self.pullAnimation setFromValue:@0];
         [self.pullAnimation setToValue:@1];
         [self.pullAnimation setDuration:1];
         [self.pullAnimation setRemovedOnCompletion:NO];
+        
         [self.textLayer addAnimation:self.pullAnimation forKey:@"pullAnimation"];
     }
     return self;
 }
 
+
 #pragma mark - Logic
 
-- (void)updateState {
-    
-}
-
 - (void)startLoading {
-    CGFloat contentInset = self.scrollView.contentInset.top;
-    self.scrollView.contentInset = UIEdgeInsetsMake(contentInset+CGRectGetHeight(self.frame), 0, 0, 0);
-
+    [self setLoading:YES];
+    
+    if (!self.layer.mask)
+    {
+        self.maskLayer = [CALayer layer];
+        self.maskLayer.backgroundColor = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.25] CGColor];
+        self.maskLayer.contents = (id)[[UIImage imageNamed:@"Mask.png"] CGImage];
+        self.maskLayer.contentsGravity = kCAGravityCenter;
+        self.maskLayer.frame = CGRectMake(self.frame.size.width * -1, 0.0f, self.frame.size.width * 2, self.frame.size.height);
+        self.layer.mask = self.maskLayer;
+        
+        CABasicAnimation *maskAnim = [CABasicAnimation animationWithKeyPath:@"position.x"];
+        maskAnim.byValue = [NSNumber numberWithFloat:self.frame.size.width];
+        maskAnim.repeatCount = HUGE_VALF;
+        maskAnim.duration = 2.0f;
+        [self.maskLayer addAnimation:maskAnim forKey:@"slideAnim"];
+    }
     
     self.action ();
 }
 
 - (void)endLoading {
-    self.status = PullToRefreshCoreTextStatusNatural;
+    [self setLoading:NO];
     [self.textLayer setTimeOffset:0];
-    [UIView animateWithDuration:0.2 animations:^{
-        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    }];
+    
+    self.layer.mask = nil;
+    
+    if (self.scrollView.contentInset.top > 0) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        }];
+    }
 }
 
 
 #pragma mark - Pulling
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if([keyPath isEqualToString:@"contentOffset"]) {
-        if (self.status != PullToRefreshCoreTextStatusLoading) {
-            CGFloat offset = self.scrollView.contentOffset.y + self.scrollView.contentInset.top;
-            if (offset <= 0.0) {
-                CGFloat startLoadingThreshold = self.frame.size.height;
-                CGFloat fractionDragged       = -offset/startLoadingThreshold;
-                
-                [self.textLayer setTimeOffset:MIN(1, fractionDragged)];
-//                self.textLayer.timeOffset = MAX(0.0, fractionDragged);
 
-                if (fractionDragged >= 1.0) {
-                    self.status = PullToRefreshCoreTextStatusLoading;
-                    [self startLoading];
-                }
-            }
+    if([keyPath isEqualToString:@"contentOffset"]) {
+
+        if (self.isLoading)
+            return;
+        
+        CGFloat offset = self.scrollView.contentOffset.y + self.scrollView.contentInset.top;
+        CGFloat triggerOffset = self.frame.size.height;
+        
+        if (offset <= 0 && offset > -triggerOffset) {
+            self.status = PullToRefreshCoreTextStatusDragging;
+            
+            CGFloat fractionDragged = -offset/triggerOffset;
+            [self.textLayer setTimeOffset:MIN(1, fractionDragged)];
+        }
+        else if (offset < -triggerOffset) {
+            self.status = PullToRefreshCoreTextStatusTriggered;
+            [self startLoading];
+        }
+        else {
+            self.status = PullToRefreshCoreTextStatusHidden;
+        }
+    } else if ([keyPath isEqualToString:@"isDragging"]) {
+        NSLog(@"dragging change");
+    }
+}
+
+- (void)scrollViewPan:(UIPanGestureRecognizer *)pan {
+    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
+        if (self.status == PullToRefreshCoreTextStatusTriggered) {
+            [self.scrollView setContentInset:UIEdgeInsetsMake(self.frame.size.height, 0, 0, 0)];
         }
     }
 }
 
+
+#pragma mark - Properties
+
+- (void)setScrollView:(UIScrollView *)scrollView {
+    _scrollView = scrollView;
+    [self.scrollView.panGestureRecognizer addTarget:self action:@selector(scrollViewPan:)];
+}
 
 @end
