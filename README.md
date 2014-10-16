@@ -14,13 +14,13 @@ Usage
 Copy the files in the folder named PullToRefreshCoreText to your project. <br>
 Import the "UIScrollView+PullToRefreshCoreText.h"
 
-                       - (void)addPullToRefreshWithPullText:(NSString *)pullText
-                                              pullTextColor:(UIColor *)pullTextColor
-                                               pullTextFont:(UIFont *)pullTextFont
-                                             refreshingText:(NSString *)refreshingText
-                                        refreshingTextColor:(UIColor *)refreshingTextColor
-                                         refreshingTextFont:(UIFont *)refreshingTextFont
-                                                     action:(pullToRefreshAction)action;
+	- (void)addPullToRefreshWithPullText:(NSString *)pullText
+	                       pullTextColor:(UIColor *)pullTextColor
+	                        pullTextFont:(UIFont *)pullTextFont
+	                      refreshingText:(NSString *)refreshingText
+	                 refreshingTextColor:(UIColor *)refreshingTextColor
+	                  refreshingTextFont:(UIFont *)refreshingTextFont
+	                              action:(pullToRefreshAction)action;
 
 It has 2 main texts, pulling and refreshing. <br>
 Init function has parameters for creating this texts with its strings, text colors and fonts. <br> 
@@ -28,30 +28,30 @@ Last parameter is the block function where loading code goes to. <br>
 
 Alternatively I added some other init methods if you want to use same texts or fonts etc. <br>
 
-                       - (void)addPullToRefreshWithPullText:(NSString *)pullText
-                                                     action:(pullToRefreshAction)action;
-                       
-                       - (void)addPullToRefreshWithPullText:(NSString *)pullText
-                                             refreshingText:(NSString *)refreshingText
-                                                     action:(pullToRefreshAction)action;
-                       
-                       - (void)addPullToRefreshWithPullText:(NSString *)pullText
-                                                       font:(UIFont *)font
-                                                     action:(pullToRefreshAction)action;
-                       
-                       
-                       - (void)addPullToRefreshWithPullText:(NSString *)pullText
-                                             refreshingText:(NSString *)refreshingText
-                                                       font:(UIFont *)font
-                                                     action:(pullToRefreshAction)action;
-                       
-                       
-                       - (void)addPullToRefreshWithPullText:(NSString *)pullText
-                                              pullTextColor:(UIColor *)pullTextColor
-                                             refreshingText:(NSString *)refreshingText
-                                        refreshingTextColor:(UIColor *)refreshingTextColor
-                                                       font:(UIFont *)font
-                                                     action:(pullToRefreshAction)action;
+   - (void)addPullToRefreshWithPullText:(NSString *)pullText
+                                 action:(pullToRefreshAction)action;
+   
+   - (void)addPullToRefreshWithPullText:(NSString *)pullText
+                         refreshingText:(NSString *)refreshingText
+                                 action:(pullToRefreshAction)action;
+   
+   - (void)addPullToRefreshWithPullText:(NSString *)pullText
+                                   font:(UIFont *)font
+                                 action:(pullToRefreshAction)action;
+   
+   
+   - (void)addPullToRefreshWithPullText:(NSString *)pullText
+                         refreshingText:(NSString *)refreshingText
+                                   font:(UIFont *)font
+                                 action:(pullToRefreshAction)action;
+   
+   
+   - (void)addPullToRefreshWithPullText:(NSString *)pullText
+                          pullTextColor:(UIColor *)pullTextColor
+                         refreshingText:(NSString *)refreshingText
+                    refreshingTextColor:(UIColor *)refreshingTextColor
+                                   font:(UIFont *)font
+                                 action:(pullToRefreshAction)action;
 
 
 Implementation
