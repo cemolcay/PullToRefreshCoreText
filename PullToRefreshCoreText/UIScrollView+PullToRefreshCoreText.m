@@ -65,8 +65,8 @@
     
     if (self.pullToRefreshView) return;
     
-    float ptrH = [self labelHeightForString:pullText labelWidth:self.frame.size.width andFont:pullTextFont];
-    CGRect ptrRect = CGRectMake(0, -ptrH, self.frame.size.width, ptrH);
+    float ptrH = [self labelHeightForString:pullText labelWidth:self.bounds.size.width andFont:pullTextFont];
+    CGRect ptrRect = CGRectMake(0, -ptrH, self.bounds.size.width, ptrH);
     
     self.pullToRefreshView = [[PullToRefreshCoreTextView alloc] initWithFrame:ptrRect pullText:pullText pullTextColor:pullTextColor pullTextFont:pullTextFont refreshingText:refreshingText refreshingTextColor:refreshingTextColor refreshingTextFont:refreshingTextFont action:action];
     [self.pullToRefreshView setScrollView:self];

@@ -66,7 +66,7 @@
            refreshingTextFont:(UIFont *)refreshingTextFont
                        action:(pullToRefreshAction)action {
     if ((self = [super initWithFrame:frame])) {
-        
+
         self.pullText = pullText;
         self.pullTextColor = pullTextColor;
         self.pullTextFont = pullTextFont;
@@ -79,7 +79,8 @@
         self.status = PullToRefreshCoreTextStatusHidden;
         self.loading = NO;
         
-        self.triggerOffset = self.frame.size.height * 2;
+        self.triggerOffset = self.frame.size.height;
+        self.triggerThreshold = self.frame.size.height;
     }
     return self;
 }
@@ -105,7 +106,6 @@
 
 - (CAShapeLayer *)pullTextLayer {
     CAShapeLayer *pull = [CAShapeLayer layer];
-    [pull setFrame:self.bounds];
     [pull setPath:[[self.pullText bezierPathWithFont:self.pullTextFont] CGPath]];
     [pull setStrokeColor:[self.pullTextColor CGColor]];
     [pull setFillColor:[[UIColor clearColor] CGColor]];
@@ -136,7 +136,7 @@
     [text setContentsScale:[[UIScreen mainScreen] scale]];
     
     float textSize = [self.refreshingText sizeWithAttributes:@{NSFontAttributeName:self.refreshingTextFont}].width;
-    [text setPosition:CGPointMake(self.frame.size.width-textSize/2, 0)];
+    [text setPosition:CGPointMake(self.frame.size.width-textSize/2, 13)]; //center text in master layer
     
     
     CALayer *maskLayer = [CALayer layer];
@@ -164,7 +164,7 @@
         if (self.isLoading)
             return;
         
-        CGFloat offset = self.scrollView.contentOffset.y + self.scrollView.contentInset.top;
+        CGFloat offset = self.scrollView.contentOffset.y + self.triggerThreshold;
         if (offset <= 0) {
             self.status = PullToRefreshCoreTextStatusDragging;
             
@@ -185,7 +185,7 @@
             [self startLoading];
             
             [UIView animateWithDuration:0.2 animations:^{
-                [self.scrollView setContentInset:UIEdgeInsetsMake(self.triggerOffset, 0, 0, 0)];
+                [self.scrollView setContentInset:UIEdgeInsetsMake(self.triggerOffset + self.triggerThreshold, 0, 0, 0)];
             }];
         }
     }

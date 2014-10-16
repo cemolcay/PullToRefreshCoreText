@@ -22,10 +22,10 @@
     [self setupScrollView];
 }
 
-
 #pragma mark - UIScrollView 
 
 - (void)setupScrollView {
+    
     self.contentHeight = 10;
     self.itemCount = 0;
     
@@ -37,17 +37,13 @@
     
     //add pull to refresh
     __weak typeof(self) weakSelf = self;
-    [self.scrollView addPullToRefreshWithPullText:@"Pull To Refresh" action:^{
-        [weakSelf loadItems];
-    }];
-    
-    [self.scrollView addPullToRefreshWithPullText:@"Pull To Refresh" pullTextColor:[UIColor blackColor] pullTextFont:DefaultTextFont refreshingText:@"Pull To Refresh" refreshingTextColor:[UIColor blueColor] refreshingTextFont:DefaultTextFont action:^{
+    [self.scrollView addPullToRefreshWithPullText:@"Pull To Refresh" pullTextColor:[UIColor blackColor] pullTextFont:DefaultTextFont refreshingText:@"Refreshing" refreshingTextColor:[UIColor blueColor] refreshingTextFont:DefaultTextFont action:^{
         [weakSelf loadItems];
     }];
     
     
     //add some items to scroll view
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         [self addNewItem];
     }
 }
@@ -55,7 +51,7 @@
 - (void)loadItems {
     __weak typeof(UIScrollView *) weakScrollView = self.scrollView;
     __weak typeof(self) weakSelf = self;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [weakSelf addNewItem];
         [weakScrollView finishLoading];

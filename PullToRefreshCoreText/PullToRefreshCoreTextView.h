@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) CGFloat triggerOffset;
+@property (nonatomic, assign) CGFloat triggerThreshold;
 
 - (instancetype)initWithFrame:(CGRect)frame
                      pullText:(NSString *)pullText
