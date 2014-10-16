@@ -70,7 +70,6 @@
     [self.pullToRefreshView setScrollView:self];
     
     [self addObserver:self.pullToRefreshView forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self.pullToRefreshView forKeyPath:@"isDragging" options:NSKeyValueObservingOptionNew context:nil];
     [self addSubview:self.pullToRefreshView];
 }
 

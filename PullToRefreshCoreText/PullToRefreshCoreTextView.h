@@ -9,9 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
 
-#import "FBShimmeringLayer.h"
-#import "FBShimmeringView.h"
-
 typedef void(^pullToRefreshAction)(void);
 
 typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
@@ -23,8 +20,8 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 @interface PullToRefreshCoreTextView : UIView
 
 @property (copy) pullToRefreshAction action;
-@property (assign) PullToRefreshCoreTextStatus status;
-@property (assign, getter=isLoading) BOOL loading;
+@property (nonatomic, assign) PullToRefreshCoreTextStatus status;
+@property (nonatomic, assign, getter=isLoading) BOOL loading;
 
 @property (nonatomic, strong) NSString *pullText;
 @property (nonatomic, strong) UIColor *pullTextColor;
@@ -35,10 +32,10 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 @property (nonatomic, strong) UIFont *refreshingTextFont;
 
 @property (nonatomic, strong) CAShapeLayer *textLayer;
-@property (nonatomic, strong) CABasicAnimation *pullAnimation;
+@property (nonatomic, strong) CALayer *maskLayer;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) CALayer *maskLayer;
+@property (nonatomic, assign) CGFloat triggerOffset;
 
 - (instancetype)initWithFrame:(CGRect)frame
                      pullText:(NSString *)pullText

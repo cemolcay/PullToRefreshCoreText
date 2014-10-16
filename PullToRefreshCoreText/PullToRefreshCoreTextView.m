@@ -67,8 +67,6 @@
                        action:(pullToRefreshAction)action {
     if ((self = [super initWithFrame:frame])) {
 
-        //[self setBackgroundColor:[UIColor grayColor]];
-        
         self.pullText = pullText;
         self.pullTextColor = pullTextColor;
         self.pullTextFont = pullTextFont;
@@ -80,25 +78,8 @@
         self.action = action;
         self.status = PullToRefreshCoreTextStatusHidden;
         self.loading = NO;
-                
-        self.textLayer = [CAShapeLayer layer];
-        [self.textLayer setPath:[[pullText bezierPathWithFont:pullTextFont] CGPath]];
-        [self.textLayer setFillColor:[[UIColor clearColor] CGColor]];
-        [self.textLayer setStrokeColor:[pullTextColor CGColor]];
-        [self.textLayer setLineWidth:2];
-        [self.textLayer setSpeed:0];
-        [self.layer addSublayer:self.textLayer];
         
-        float textSize = [pullText sizeWithAttributes:@{NSFontAttributeName:pullTextFont}].width;
-        [self.textLayer setPosition:CGPointMake((self.frame.size.width-textSize)/2, self.textLayer.position.y)];
-
-        self.pullAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        [self.pullAnimation setFromValue:@0];
-        [self.pullAnimation setToValue:@1];
-        [self.pullAnimation setDuration:1];
-        [self.pullAnimation setRemovedOnCompletion:NO];
-        
-        [self.textLayer addAnimation:self.pullAnimation forKey:@"pullAnimation"];
+        self.triggerOffset = self.frame.size.height * 1.5;
     }
     return self;
 }
@@ -108,31 +89,11 @@
 
 - (void)startLoading {
     [self setLoading:YES];
-    
-    if (!self.layer.mask)
-    {
-        self.maskLayer = [CALayer layer];
-        self.maskLayer.backgroundColor = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.25] CGColor];
-        self.maskLayer.contents = (id)[[UIImage imageNamed:@"Mask.png"] CGImage];
-        self.maskLayer.contentsGravity = kCAGravityCenter;
-        self.maskLayer.frame = CGRectMake(self.frame.size.width * -1, 0.0f, self.frame.size.width * 2, self.frame.size.height);
-        self.layer.mask = self.maskLayer;
-        
-        CABasicAnimation *maskAnim = [CABasicAnimation animationWithKeyPath:@"position.x"];
-        maskAnim.byValue = [NSNumber numberWithFloat:self.frame.size.width];
-        maskAnim.repeatCount = HUGE_VALF;
-        maskAnim.duration = 2.0f;
-        [self.maskLayer addAnimation:maskAnim forKey:@"slideAnim"];
-    }
-    
     self.action ();
 }
 
 - (void)endLoading {
     [self setLoading:NO];
-    [self.textLayer setTimeOffset:0];
-    
-    self.layer.mask = nil;
     
     if (self.scrollView.contentInset.top > 0) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -141,6 +102,63 @@
     }
 }
 
+- (void)setupTextLayer {
+    
+    //init
+    if (!self.textLayer) {
+        self.textLayer = [CAShapeLayer layer];
+        [self.textLayer setFillColor:[[UIColor clearColor] CGColor]];
+        [self.textLayer setLineWidth:2];
+        [self.textLayer setSpeed:0];
+        [self.layer addSublayer:self.textLayer];
+        
+        CABasicAnimation *textAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        [textAnimation setFromValue:@0];
+        [textAnimation setToValue:@1];
+        [textAnimation setDuration:1];
+        [textAnimation setRemovedOnCompletion:NO];
+        [self.textLayer addAnimation:textAnimation forKey:@"textAnimation"];
+    }
+
+    //change values for pulling/refreshing
+    if (self.isLoading) {
+        float textSize = [self.refreshingText sizeWithAttributes:@{NSFontAttributeName:self.refreshingTextFont}].width;
+        CGPoint textLayerPosition = CGPointMake(100, self.textLayer.position.y);
+        [self.textLayer setPosition:textLayerPosition];
+        
+        [self.textLayer setPath:[[self.refreshingText bezierPathWithFont:self.refreshingTextFont] CGPath]];
+        [self.textLayer setStrokeColor:[self.refreshingTextColor CGColor]];
+        [self.textLayer setTimeOffset:1];
+    } else {
+        float textSize = [self.pullText sizeWithAttributes:@{NSFontAttributeName:self.pullTextFont}].width;
+        CGPoint textLayerPosition = CGPointMake((self.frame.size.width-textSize)/2, self.textLayer.position.y);
+        [self.textLayer setPosition:textLayerPosition];
+        
+        [self.textLayer setPath:[[self.pullText bezierPathWithFont:self.pullTextFont] CGPath]];
+        [self.textLayer setStrokeColor:[self.pullTextColor CGColor]];
+        [self.textLayer setTimeOffset:0];
+    }
+}
+
+- (void)setupMaskLayer {
+
+    if (self.isLoading) {
+        self.maskLayer = [CALayer layer];
+        self.maskLayer.backgroundColor = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.25] CGColor];
+        self.maskLayer.contents = (id)[[UIImage imageNamed:@"Mask.png"] CGImage];
+        self.maskLayer.contentsGravity = kCAGravityCenter;
+        self.maskLayer.frame = CGRectMake(self.frame.size.width * -1, 0.0f, self.frame.size.width * 2, self.frame.size.height);
+        self.layer.mask = self.maskLayer;
+
+        CABasicAnimation *maskAnim = [CABasicAnimation animationWithKeyPath:@"position.x"];
+        maskAnim.byValue = [NSNumber numberWithFloat:self.frame.size.width];
+        maskAnim.repeatCount = HUGE_VALF;
+        maskAnim.duration = 2.0f;
+        [self.maskLayer addAnimation:maskAnim forKey:@"slideAnim"];
+    } else {
+        self.layer.mask = nil;
+    }
+}
 
 #pragma mark - Pulling
 
@@ -152,30 +170,28 @@
             return;
         
         CGFloat offset = self.scrollView.contentOffset.y + self.scrollView.contentInset.top;
-        CGFloat triggerOffset = self.frame.size.height;
-        
-        if (offset <= 0 && offset > -triggerOffset) {
+        if (offset <= 0) {
             self.status = PullToRefreshCoreTextStatusDragging;
             
-            CGFloat fractionDragged = -offset/triggerOffset;
+            CGFloat fractionDragged = -offset/self.triggerOffset;
             [self.textLayer setTimeOffset:MIN(1, fractionDragged)];
-        }
-        else if (offset < -triggerOffset) {
-            self.status = PullToRefreshCoreTextStatusTriggered;
-            [self startLoading];
-        }
-        else {
+        } else {
             self.status = PullToRefreshCoreTextStatusHidden;
         }
-    } else if ([keyPath isEqualToString:@"isDragging"]) {
-        NSLog(@"dragging change");
     }
 }
 
 - (void)scrollViewPan:(UIPanGestureRecognizer *)pan {
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
-        if (self.status == PullToRefreshCoreTextStatusTriggered) {
-            [self.scrollView setContentInset:UIEdgeInsetsMake(self.frame.size.height, 0, 0, 0)];
+        
+        CGFloat offset = self.scrollView.contentOffset.y + self.scrollView.contentInset.top;
+        if (offset < -self.triggerOffset) {
+            self.status = PullToRefreshCoreTextStatusTriggered;
+            [self startLoading];
+            
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.scrollView setContentInset:UIEdgeInsetsMake(self.triggerOffset, 0, 0, 0)];
+            }];
         }
     }
 }
@@ -186,6 +202,12 @@
 - (void)setScrollView:(UIScrollView *)scrollView {
     _scrollView = scrollView;
     [self.scrollView.panGestureRecognizer addTarget:self action:@selector(scrollViewPan:)];
+}
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    [self setupTextLayer];
+    [self setupMaskLayer];
 }
 
 @end
