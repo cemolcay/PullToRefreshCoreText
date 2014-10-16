@@ -4,13 +4,13 @@ PullToRefreshCoreText
 PullToRefresh extension for all UIScrollView type classes with animated text drawing style<br>
 
 Demo
-====
+----
 
 ![alt tag](https://raw.githubusercontent.com/cemolcay/PullToRefreshCoreText/master/demo.gif)
 
 
 Usage
-=====
+-----
 Copy the files in the folder named PullToRefreshCoreText to your project. <br>
 Import the "UIScrollView+PullToRefreshCoreText.h"
 
@@ -70,7 +70,8 @@ Implementation
     }];
 
 
-One last thing: you should call the [scrollView finishLoading] method after the load finishes. Otherwise you stuck in refreshing state always.
+One last thing: you should call the `[scrollView finishLoading]` method after the load finishes.<br>
+Otherwise you stuck in refreshing state always.
 
 Credits
 =======
