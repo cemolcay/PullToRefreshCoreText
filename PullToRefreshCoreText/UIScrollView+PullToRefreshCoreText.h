@@ -10,7 +10,7 @@
 #import "PullToRefreshCoreTextView.h"
 
 #define DefaultTextColor    [UIColor blackColor]
-#define DefaultTextFont     [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50]//[UIFont systemFontOfSize:25]
+#define DefaultTextFont     [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]
 
 @interface UIScrollView (PullToRefreshCoreText)
 

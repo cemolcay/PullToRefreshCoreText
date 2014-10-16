@@ -63,6 +63,8 @@
                   refreshingTextFont:(UIFont *)refreshingTextFont
                               action:(pullToRefreshAction)action {
     
+    if (self.pullToRefreshView) return;
+    
     float ptrH = [self labelHeightForString:pullText labelWidth:self.frame.size.width andFont:pullTextFont];
     CGRect ptrRect = CGRectMake(0, -ptrH, self.frame.size.width, ptrH);
     

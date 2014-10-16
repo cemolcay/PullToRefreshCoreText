@@ -31,8 +31,6 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 @property (nonatomic, strong) UIColor *refreshingTextColor;
 @property (nonatomic, strong) UIFont *refreshingTextFont;
 
-@property (nonatomic, strong) CAShapeLayer *textLayer;
-@property (nonatomic, strong) CALayer *maskLayer;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) CGFloat triggerOffset;

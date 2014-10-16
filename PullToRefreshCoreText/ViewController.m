@@ -19,13 +19,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupCollectionView];
+    [self setupScrollView];
 }
 
 
 #pragma mark - UIScrollView 
 
-- (void)setupCollectionView {
+- (void)setupScrollView {
     self.contentHeight = 10;
     self.itemCount = 0;
     
@@ -37,7 +37,11 @@
     
     //add pull to refresh
     __weak typeof(self) weakSelf = self;
-    [self.scrollView addPullToRefreshWithPullText:@"Pull To Refresh" pullTextColor:[UIColor blackColor] pullTextFont:DefaultTextFont refreshingText:@"Refreshing" refreshingTextColor:[UIColor blueColor] refreshingTextFont:[UIFont italicSystemFontOfSize:30] action:^{
+    [self.scrollView addPullToRefreshWithPullText:@"Pull To Refresh" action:^{
+        [weakSelf loadItems];
+    }];
+    
+    [self.scrollView addPullToRefreshWithPullText:@"Pull To Refresh" pullTextColor:[UIColor blackColor] pullTextFont:DefaultTextFont refreshingText:@"Pull To Refresh" refreshingTextColor:[UIColor blueColor] refreshingTextFont:DefaultTextFont action:^{
         [weakSelf loadItems];
     }];
     
@@ -70,6 +74,7 @@
     [lbl setText:[NSString stringWithFormat:@"item %lu", self.itemCount++]];
     [lbl setTextAlignment:NSTextAlignmentCenter];
     [lbl setBackgroundColor:[self randomColor]];
+    [lbl setFont:DefaultTextFont];
 
     self.contentHeight += 160;
     return lbl;
