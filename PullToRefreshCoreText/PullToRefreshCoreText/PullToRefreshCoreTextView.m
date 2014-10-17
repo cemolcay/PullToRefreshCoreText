@@ -166,10 +166,20 @@
         
         CGFloat offset = self.scrollView.contentOffset.y + self.triggerThreshold;
         if (offset <= 0) {
-            self.status = PullToRefreshCoreTextStatusDragging;
             
+            //animate pull text
             CGFloat fractionDragged = -offset/self.triggerOffset;
             [(CALayer *)[self.layer.sublayers firstObject] setTimeOffset:MIN(1, fractionDragged)];
+            
+            NSLog(@"view h %f, threshold %f, trigger %f, offset %f, fraction %f", self.frame.size.height, self.triggerThreshold, self.triggerOffset, offset, fractionDragged);
+            
+            //update state
+            if (fractionDragged >= 1) {
+                self.status = PullToRefreshCoreTextStatusTriggered;
+            } else {
+                self.status = PullToRefreshCoreTextStatusDragging;
+            }
+            
         } else {
             self.status = PullToRefreshCoreTextStatusHidden;
         }
@@ -178,10 +188,7 @@
 
 - (void)scrollViewPan:(UIPanGestureRecognizer *)pan {
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
-        
-        CGFloat offset = self.scrollView.contentOffset.y + self.scrollView.contentInset.top;
-        if (offset < -self.triggerOffset) {
-            self.status = PullToRefreshCoreTextStatusTriggered;
+        if (self.status == PullToRefreshCoreTextStatusTriggered) {
             [self startLoading];
             
             [UIView animateWithDuration:0.2 animations:^{

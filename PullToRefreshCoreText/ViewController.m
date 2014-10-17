@@ -22,6 +22,7 @@
     [self setupScrollView];
 }
 
+
 #pragma mark - UIScrollView 
 
 - (void)setupScrollView {
