@@ -157,10 +157,8 @@
 
 #pragma mark - Interaction
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-
-    if([keyPath isEqualToString:@"contentOffset"]) {
-
+- (void)scrollViewDidScroll:(UIPanGestureRecognizer *)pan {
+    if (pan.state == UIGestureRecognizerStateChanged) {
         if (self.isLoading)
             return;
         
@@ -170,8 +168,6 @@
             //animate pull text
             CGFloat fractionDragged = -offset/self.triggerOffset;
             [(CALayer *)[self.layer.sublayers firstObject] setTimeOffset:MIN(1, fractionDragged)];
-            
-            NSLog(@"view h %f, threshold %f, trigger %f, offset %f, fraction %f", self.frame.size.height, self.triggerThreshold, self.triggerOffset, offset, fractionDragged);
             
             //update state
             if (fractionDragged >= 1) {
@@ -184,10 +180,7 @@
             self.status = PullToRefreshCoreTextStatusHidden;
         }
     }
-}
-
-- (void)scrollViewPan:(UIPanGestureRecognizer *)pan {
-    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
+    else if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
         if (self.status == PullToRefreshCoreTextStatusTriggered) {
             [self startLoading];
             
@@ -203,7 +196,7 @@
 
 - (void)setScrollView:(UIScrollView *)scrollView {
     _scrollView = scrollView;
-    [self.scrollView.panGestureRecognizer addTarget:self action:@selector(scrollViewPan:)];
+    [self.scrollView.panGestureRecognizer addTarget:self action:@selector(scrollViewDidScroll:)];
 }
 
 - (void)setLoading:(BOOL)loading {

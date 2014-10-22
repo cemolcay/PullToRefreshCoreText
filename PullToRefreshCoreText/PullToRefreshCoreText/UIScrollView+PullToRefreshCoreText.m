@@ -70,8 +70,7 @@
     
     self.pullToRefreshView = [[PullToRefreshCoreTextView alloc] initWithFrame:ptrRect pullText:pullText pullTextColor:pullTextColor pullTextFont:pullTextFont refreshingText:refreshingText refreshingTextColor:refreshingTextColor refreshingTextFont:refreshingTextFont action:action];
     [self.pullToRefreshView setScrollView:self];
-    
-    [self addObserver:self.pullToRefreshView forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+
     [self addSubview:self.pullToRefreshView];
 }
 
