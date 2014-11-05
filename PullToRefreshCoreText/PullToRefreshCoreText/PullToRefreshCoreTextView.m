@@ -187,6 +187,8 @@
             [UIView animateWithDuration:0.2 animations:^{
                 [self.scrollView setContentInset:UIEdgeInsetsMake(self.triggerOffset + self.triggerThreshold, 0, 0, 0)];
             }];
+        } else {
+            [(CALayer *)[self.layer.sublayers firstObject] setTimeOffset:0];
         }
     }
 }
