@@ -8,11 +8,22 @@ Demo
 
 ![alt tag](https://raw.githubusercontent.com/cemolcay/PullToRefreshCoreText/master/demo.gif)
 
+Install
+-------
+
+**Manual**  
+Copy the files in the folder named PullToRefreshCoreText to your project.  
+Import the "UIScrollView+PullToRefreshCoreText.h"  
+  
+**Cocoapods**
+
+```
+    source 'https://github.com/CocoaPods/Specs.git'
+    pod 'PullToRefreshCoreText', '~> 0.1'
+``` 
 
 Usage
 -----
-Copy the files in the folder named PullToRefreshCoreText to your project. <br>
-Import the "UIScrollView+PullToRefreshCoreText.h"
 
 	- (void)addPullToRefreshWithPullText:(NSString *)pullText
 	                       pullTextColor:(UIColor *)pullTextColor
