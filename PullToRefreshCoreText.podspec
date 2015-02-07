@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "PullToRefreshCoreText"
-  s.version      = "0.1"
+  s.version      = "0.2"
   s.summary      = "PullToRefresh extension for all UIScrollView type classes with animated text drawing style ",
   s.description = <<-DESC
                 https://github.com/cemolcay/PullToRefreshCoreText/blob/master/README.md
@@ -72,7 +72,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/cemolcay/PullToRefreshCoreText.git", :tag => "v0.1" }
+  s.source       = { :git => "https://github.com/cemolcay/PullToRefreshCoreText.git", :tag => "v0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
