@@ -19,7 +19,7 @@ Import the "UIScrollView+PullToRefreshCoreText.h"
 
 ```
     source 'https://github.com/CocoaPods/Specs.git'
-    pod 'PullToRefreshCoreText', '~> 0.1'
+    pod 'PullToRefreshCoreText', '~> 0.2'
 ``` 
 
 Usage
