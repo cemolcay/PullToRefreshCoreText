@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "PullToRefreshCoreText"
   s.version      = "0.2"
-  s.summary      = "PullToRefresh extension for all UIScrollView type classes with animated text drawing style ",
+  s.summary      = "PullToRefresh extension for all UIScrollView type classes with animated text drawing style "
   s.description = <<-DESC
                 https://github.com/cemolcay/PullToRefreshCoreText/blob/master/README.md
                    DESC
