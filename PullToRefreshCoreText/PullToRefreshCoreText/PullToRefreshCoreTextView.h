@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, PullToRefreshCoreTextStatus) {
 @property (nonatomic, strong) UIFont *refreshingTextFont;
 
 
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, assign) CGFloat triggerOffset;
 @property (nonatomic, assign) CGFloat triggerThreshold;
 
