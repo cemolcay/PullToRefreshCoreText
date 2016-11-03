@@ -130,7 +130,11 @@
     CATextLayer *text = [CATextLayer layer];
     [text setFrame:self.bounds];
     [text setString:(id)self.refreshingText];
-    [text setFont:CTFontCreateWithName((__bridge CFStringRef)self.refreshingTextFont.fontName, self.refreshingTextFont.pointSize, NULL)];
+    
+    CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.refreshingTextFont.fontName, self.refreshingTextFont.pointSize, NULL);
+    [text setFont:fontRef];
+    CFRelease(fontRef);
+    
     [text setFontSize:self.refreshingTextFont.pointSize];
     [text setForegroundColor:[self.refreshingTextColor CGColor]];
     [text setContentsScale:[[UIScreen mainScreen] scale]];
