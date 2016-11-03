@@ -17,6 +17,7 @@
 		B2D4613119F006ED00C6B60A /* Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D4612C19F006ED00C6B60A /* Mask.png */; };
 		B2D4613219F006ED00C6B60A /* PullToRefreshCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D4612E19F006ED00C6B60A /* PullToRefreshCoreTextView.m */; };
 		B2D4613319F006ED00C6B60A /* UIScrollView+PullToRefreshCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D4613019F006ED00C6B60A /* UIScrollView+PullToRefreshCoreText.m */; };
+		C00613BA1C10F7DC00E38B9E /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00613B91C10F7DC00E38B9E /* TableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		B2D4612E19F006ED00C6B60A /* PullToRefreshCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshCoreTextView.m; sourceTree = "<group>"; };
 		B2D4612F19F006ED00C6B60A /* UIScrollView+PullToRefreshCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+PullToRefreshCoreText.h"; sourceTree = "<group>"; };
 		B2D4613019F006ED00C6B60A /* UIScrollView+PullToRefreshCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+PullToRefreshCoreText.m"; sourceTree = "<group>"; };
+		C00613B81C10F7DC00E38B9E /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		C00613B91C10F7DC00E38B9E /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +97,8 @@
 				B29BC27B19E4178E00365B69 /* AppDelegate.m */,
 				B29BC27D19E4178E00365B69 /* ViewController.h */,
 				B29BC27E19E4178E00365B69 /* ViewController.m */,
+				C00613B81C10F7DC00E38B9E /* TableViewController.h */,
+				C00613B91C10F7DC00E38B9E /* TableViewController.m */,
 				B29BC28019E4178E00365B69 /* Main.storyboard */,
 				B29BC28319E4178E00365B69 /* Images.xcassets */,
 				B29BC28519E4178E00365B69 /* LaunchScreen.xib */,
@@ -242,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B29BC27F19E4178E00365B69 /* ViewController.m in Sources */,
+				C00613BA1C10F7DC00E38B9E /* TableViewController.m in Sources */,
 				B29BC27C19E4178E00365B69 /* AppDelegate.m in Sources */,
 				B2D4613219F006ED00C6B60A /* PullToRefreshCoreTextView.m in Sources */,
 				B2D4613319F006ED00C6B60A /* UIScrollView+PullToRefreshCoreText.m in Sources */,
@@ -370,6 +376,7 @@
 				INFOPLIST_FILE = PullToRefreshCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -380,6 +387,7 @@
 				INFOPLIST_FILE = PullToRefreshCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

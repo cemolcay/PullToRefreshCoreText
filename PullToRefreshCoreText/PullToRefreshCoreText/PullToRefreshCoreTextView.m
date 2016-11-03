@@ -130,7 +130,11 @@
     CATextLayer *text = [CATextLayer layer];
     [text setFrame:self.bounds];
     [text setString:(id)self.refreshingText];
-    [text setFont:CTFontCreateWithName((__bridge CFStringRef)self.refreshingTextFont.fontName, self.refreshingTextFont.pointSize, NULL)];
+    
+    CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.refreshingTextFont.fontName, self.refreshingTextFont.pointSize, NULL);
+    [text setFont:fontRef];
+    CFRelease(fontRef);
+    
     [text setFontSize:self.refreshingTextFont.pointSize];
     [text setForegroundColor:[self.refreshingTextColor CGColor]];
     [text setContentsScale:[[UIScreen mainScreen] scale]];
@@ -158,6 +162,19 @@
 #pragma mark - Interaction
 
 - (void)scrollViewDidScroll:(UIPanGestureRecognizer *)pan {
+    
+    // Check if the superview's frame width has changed.
+    if (self.superview.bounds.size.width != self.frame.size.width) {
+        
+        // Update our frame with the new width.
+        CGRect newFrame = self.frame;
+        newFrame.size.width = self.superview.bounds.size.width;
+        self.frame = newFrame;
+        
+        // Update the layers.
+        [self setLoading:self.isLoading];
+    }
+    
     if (pan.state == UIGestureRecognizerStateChanged) {
         if (self.isLoading)
             return;
